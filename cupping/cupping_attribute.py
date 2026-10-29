@@ -37,12 +37,12 @@ class CuppingAttributeCatalog:
         self._attributes = {
             attribute.key: attribute
             for attribute in (
-                CuppingAttribute("moisture", "Humedad del grano", "%", 8, 16, 0.1),
+                CuppingAttribute("moisture", "Humedad", "%", 8, 16, 0.1),
                 CuppingAttribute("defects", "Defectos en 350 g", "granos", 0, 60, 1),
                 CuppingAttribute("aroma", "Aroma", "pts", 6, 10, 0.25),
                 CuppingAttribute("acidity", "Acidez", "pts", 6, 10, 0.25),
                 CuppingAttribute("body", "Cuerpo", "pts", 6, 10, 0.25),
-                CuppingAttribute("altitude", "Altitud de la finca", "m s. n. m.", 1000, 2500, 10),
+                CuppingAttribute("altitude", "Altitud", "m s. n. m.", 1000, 2500, 10),
             )
         }
 
