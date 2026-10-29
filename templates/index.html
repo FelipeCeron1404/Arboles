@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catación Nariño · Árbol de decisión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead__brand">
+      <span class="masthead__seal">N</span>
+      <div>
+        <h1>Catación Nariño</h1>
+        <p>Árbol de decisión binario para clasificar lotes de café de alta montaña</p>
+      </div>
+    </div>
+    <button class="button button--ghost" id="restartButton" type="button">Reiniciar laboratorio</button>
+  </header>
+
+  <main class="layout">
+    <section class="panel panel--form">
+      <div class="panel__head">
+        <h2>Catar un lote</h2>
+        <button class="link-button" id="sampleButton" type="button">Llenar con valores de ejemplo</button>
+      </div>
+      <form id="lotForm" autocomplete="off">
+        <div class="field-row">
+          <label class="field">
+            <span>Código del lote</span>
+            <input name="code" placeholder="BUE-020" required>
+          </label>
+          <label class="field">
+            <span>Municipio</span>
+            <input name="municipality" list="municipalities" placeholder="Buesaco" required>
+          </label>
+        </div>
+        <label class="field">
+          <span>Finca</span>
+          <input name="farm" placeholder="La Esperanza" required>
+        </label>
+        <div class="measures" id="measureFields"></div>
+        <button class="button" type="submit">Pasar el lote por el árbol</button>
+      </form>
+      <div class="verdict" id="verdict" hidden></div>
+    </section>
+
+    <section class="panel panel--tree">
+      <div class="panel__head">
+        <h2>Árbol de cata</h2>
+        <ul class="legend">
+          <li><i class="dot dot--root"></i>Raíz</li>
+          <li><i class="dot dot--branch"></i>Rama</li>
+          <li><i class="dot dot--leaf"></i>Hoja</li>
+          <li><i class="dot dot--route"></i>Recorrido del último lote</li>
+        </ul>
+      </div>
+      <p class="hint">Cada nodo pregunta por un atributo de la ficha de cata. A la izquierda va el lote que cumple (Sí) y a la derecha el que no (No). Haz clic en un nodo para inspeccionarlo.</p>
+      <div class="canvas" id="treeCanvas"></div>
+    </section>
+
+    <aside class="panel panel--inspector" id="inspector">
+      <div class="inspector__empty">
+        <h2>Inspector de nodo</h2>
+        <p>Selecciona un nodo del árbol para ver su nivel, grado, padre y hermano, y para crecer, editar o podar el árbol desde ahí.</p>
+      </div>
+    </aside>
+
+    <section class="panel panel--metrics">
+      <div class="panel__head">
+        <h2>Propiedades del árbol</h2>
+      </div>
+      <div class="metrics" id="metrics"></div>
+      <div class="levels" id="levels"></div>
+    </section>
+
+    <section class="panel panel--traversals">
+      <div class="panel__head">
+        <h2>Recorridos</h2>
+        <div class="tabs" id="traversalTabs">
+          <button type="button" data-order="preorder" class="is-active">Preorden</button>
+          <button type="button" data-order="inorder">Inorden</button>
+          <button type="button" data-order="postorder">Postorden</button>
+          <button type="button" data-order="levelorder">Por niveles</button>
+        </div>
+      </div>
+      <p class="hint" id="traversalHint"></p>
+      <ol class="chips" id="traversalChips"></ol>
+    </section>
+
+    <section class="panel panel--records">
+      <div class="panel__head">
+        <h2>Lotes catados</h2>
+        <div class="summary" id="summary"></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Lote</th>
+              <th>Finca</th>
+              <th>Municipio</th>
+              <th>Humedad</th>
+              <th>Defectos</th>
+              <th>Aroma</th>
+              <th>Acidez</th>
+              <th>Cuerpo</th>
+              <th>Altitud</th>
+              <th>Clasificación</th>
+              <th>Hoja</th>
+            </tr>
+          </thead>
+          <tbody id="recordsBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <datalist id="municipalities">
+    <option value="Buesaco"><option value="Sandoná"><option value="La Unión">
+    <option value="Consacá"><option value="El Tablón de Gómez"><option value="La Florida">
+    <option value="San Lorenzo"><option value="Arboleda"><option value="Colón">
+    <option value="San Pablo"><option value="Linares"><option value="Samaniego">
+    <option value="Yacuanquer"><option value="El Tambo"><option value="Taminango">
+  </datalist>
+  <datalist id="gradeOptions"></datalist>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
